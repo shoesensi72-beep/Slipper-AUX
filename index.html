@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<title>Slipper Aimbot - Safari Edition</title>
+<style>
+  :root { --bg: #0d0b14; --card: #15121c; --acc: #9d4edd; --glow: rgba(157, 78, 221, 0.5); }
+  * { -webkit-tap-highlight-color: transparent; user-select: none; box-sizing: border-box; }
+  body { background: #000; color: #fff; font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+  
+  /* TELA DE LOGIN */
+  .login-screen { width: 340px; background: var(--bg); border-radius: 25px; border: 1.5px solid var(--acc); padding: 30px; text-align: center; box-shadow: 0 0 20px var(--glow); position: relative; z-index: 10; }
+  .login-screen h2 { font-family: 'Orbitron'; color: var(--acc); margin-bottom: 20px; font-size: 1.2rem; text-transform: lowercase; }
+  .login-input { width: 100%; background: #1c1926; border: 1px solid #333; padding: 15px; border-radius: 12px; color: #fff; text-align: center; font-size: 1.1rem; margin-bottom: 15px; outline: none; border: 1px solid rgba(255,255,255,0.1); }
+  
+  /* PAINEL PRINCIPAL */
+  .container { display: none; width: 350px; background: var(--bg); border-radius: 24px; border: 1.2px solid var(--acc); box-shadow: 0 0 25px var(--glow); overflow: hidden; position: relative; }
+  .header { padding: 18px; text-align: center; font-family: 'Orbitron'; color: var(--acc); font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05); text-transform: lowercase; }
+  
+  .main { display: flex; height: 380px; }
+  .sidebar { width: 85px; background: rgba(0,0,0,0.2); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
+  .nav { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #444; cursor: pointer; }
+  .nav.active { color: #fff; background: rgba(157, 78, 221, 0.1); border-left: 3px solid var(--acc); }
+  .nav i { font-size: 1.3rem; margin-bottom: 6px; }
+  .nav span { font-size: 0.6rem; font-weight: 900; text-transform: lowercase; }
+
+  .content { flex: 1; padding: 15px; display: flex; flex-direction: column; gap: 10px; position: relative; }
+  .page { display: none; flex-direction: column; height: 100%; }
+  .page.active { display: flex; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .box { background: var(--card); padding: 10px; border-radius: 12px; font-size: 0.55rem; font-weight: 700; display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.03); }
+  .box input { margin-right: 8px; accent-color: var(--acc); }
+
+  .slider-box { background: var(--card); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); }
+  .slider-lbl { display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 0.6rem; color: var(--acc); margin-bottom: 8px; }
+  input[type=range] { width: 100%; -webkit-appearance: none; height: 4px; background: #222; border-radius: 2px; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--acc); border-radius: 50%; }
+
+  select { background: var(--card); border: 1px solid rgba(255,255,255,0.05); color: #fff; padding: 10px; border-radius: 10px; font-size: 0.7rem; outline: none; text-align: center; }
+
+  .btn-inj { width: 100%; background: linear-gradient(135deg, #5a189a, #9d4edd); border: none; padding: 15px; border-radius: 14px; color: #fff; font-family: 'Orbitron'; font-weight: 900; margin-top: auto; cursor: pointer; text-transform: uppercase; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+  
+  .info-item { background: var(--card); padding: 12px; border-radius: 12px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.03); text-align: left; }
+  .info-title { color: var(--acc); font-size: 0.6rem; font-weight: 900; margin-bottom: 4px; }
+  .info-val { font-size: 0.75rem; color: #ccc; }
+</style>
+</head>
+<body>
+
+<div id="loginPage" class="login-screen">
+  <h2>slipper login</h2>
+  <input type="password" id="pass" class="login-input" placeholder="digite a chave...">
+  <div class="btn-inj" onclick="checkLogin()">Entrar</div>
+</div>
+
+<div id="panel" class="container">
+  <div class="header">slipper aimbot</div>
+  <div class="main">
+    <div class="sidebar">
+      <div id="btn-aim" class="nav active" onclick="tab('aim')"><i class="fas fa-crosshairs"></i><span>aimbot</span></div>
+      <div id="btn-inf" class="nav" onclick="tab('inf')"><i class="fas fa-info-circle"></i><span>info</span></div>
+    </div>
+    
+    <div class="content">
+      <div id="aim" class="page active">
+        <div class="grid">
+          <div class="box"><input type="checkbox"> Ativar Aimbot</div>
+          <div class="box"><input type="checkbox"> NoRecoil</div>
+          <div class="box"><input type="checkbox"> aumentar precisão</div>
+          <div class="box"><input type="checkbox"> ignorar derrubados</div>
+        </div>
+        
+        <div class="slider-box">
+          <div class="slider-lbl"><span>[ 1 ]</span></div>
+          <input type="range" min="1" max="360" value="1" oninput="document.querySelector('.slider-lbl span').innerText='[ '+this.value+' ]'">
+        </div>
+        
+        <select>
+          <option>Cabeça</option>
+          <option>Pescoço</option>
+          <option>Peito</option>
+        </select>
+
+        <a href="freefire://" class="btn-inj" id="injectBtn">INJETAR</a>
+      </div>
+
+      <div id="inf" class="page">
+        <div class="info-item"><div class="info-title">Criado por:</div><div class="info-val">Slipper</div></div>
+        <div class="info-item"><div class="info-title">Créditos a:</div><div class="info-val">Slipper</div></div>
+        <div class="info-item"><div class="info-title">Modelo do telefone:</div><div class="info-val">iPhone 8 Plus</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Função de Login
+  function checkLogin() {
+    const input = document.getElementById('pass').value;
+    if(input === "Slipper-AUX") {
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('panel').style.display = 'block';
+    } else { alert('Chave incorreta!'); }
+  }
+
+  // Troca de Abas
+  function tab(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav').forEach(n => n.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.getElementById('btn-'+id).classList.add('active');
+  }
+</script>
+</body>
+</html>
